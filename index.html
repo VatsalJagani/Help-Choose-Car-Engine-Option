@@ -140,6 +140,8 @@
                 <h3>Interest earned on saving (CNG): <b><span id="interestEarnedOnCNG"></span></b></h3>
                 <h3>Petrol Car Costing after interest earned calculation: <b><span id="petrol5YearCostingAfterInterestEarned"></span></b></h3>
                 <h3>Which Option is Better: <b><span id="betterEngineOption"></span></b></h3>
+                <h3><b><span> </span></b></h3>
+                <h3><b><span> </span></b></h3>
             </div>
         </div>
     </div>
@@ -159,10 +161,10 @@
             let drive_km_per_year = $('#drive_km_per_year').val();
             let fd_interest_rate = $('#fd_interest_rate').val();
 
-            let petrol5YearCosting = on_road_price + petrol_price*drive_km_per_year*5;
+            let petrol5YearCosting = on_road_price + petrol_price*(drive_km_per_year/petrol_mileage)*5;
             $("#petrol5YearCosting").text(petrol5YearCosting);
 
-            let cng5YearCosting = on_road_price + petrol_price*drive_km_per_year*5;
+            let cng5YearCosting = on_road_price + petrol_price*(drive_km_per_year/cng_mileage)*5;
             $("#cng5YearCosting").text(cng5YearCosting);
 
             let interestEarnedOnCNG = ((on_road_price_with_cng-on_road_price)*fd_interest_rate*5)/100;
