@@ -102,12 +102,43 @@
             <div id="questionBlock" class="block">
                 <div class="question">
                     <label for="on_road_price">Car On-road Price</label>
-                    <input id="on_road_price" type="number" />
+                    <input id="on_road_price" type="number" value="1500000" />
+                </div>
+                <div class="question">
+                    <label for="on_road_price_with_cng">Car On-road Price with CNG</label>
+                    <input id="on_road_price_with_cng" type="number" value="1570000" />
+                </div>
+                <div class="question">
+                    <label for="petrol_price">Petrol Price</label>
+                    <input id="petrol_price" type="number" value="96" />
+                </div>
+                <div class="question">
+                    <label for="cng_price">CNG Price</label>
+                    <input id="cng_price" type="number" value="76" />
+                </div>
+                <div class="question">
+                    <label for="petrol_mileage">Petrol Mileage (kmpl)</label>
+                    <input id="petrol_mileage" type="number" value="14.5" />
+                </div>
+                <div class="question">
+                    <label for="cng_mileage">CNG Mileage (km/kg)</label>
+                    <input id="cng_mileage" type="number" value="24" />
+                </div>
+                <div class="question">
+                    <label for="drive_km_per_year">Km drive per year</label>
+                    <input id="drive_km_per_year" type="number" value="10000" />
+                </div>
+                <div class="question">
+                    <label for="fd_interest_rate">FD Interest Rate</label>
+                    <input id="fd_interest_rate" type="number" value="8" />
                 </div>
             </div>
 
             <div id="resultBlock" class="block">
-                <h3>Costing of Car Price in 5 Years: <b><span id="carPrice5Years"></span></b></h3>
+                <h3>Costing of Car Price in 5 Years (Petrol): <b><span id="petrol5YearCosting"></span></b></h3>
+                <h3>Costing of Car Price in 5 Years (CNG): <b><span id="cng5YearCosting"></span></b></h3>
+                <h3>Interest earned on saving (CNG): <b><span id="interestEarnedOnCNG"></span></b></h3>
+                <h3>Petrol Car Costing after interest earned calculation: <b><span id="petrol5YearCostingAfterInterestEarned"></span></b></h3>
                 <h3>Which Option is Better: <b><span id="betterEngineOption"></span></b></h3>
             </div>
         </div>
@@ -118,106 +149,52 @@
     </footer>
 
     <script>
-        function setResult(formNo) {
-            $('#itrNumber').text(formNo);
-            $('#resultBlock').show()
-        }
-
         function generateAnswerIfPossible() {
-            let total_income = $('#total_income').val();
-            let is_capital_income = $('#is_capital_income').val();
-            let is_intra_day = $('#is_intra_day').val()
-            let is_professional = $('#is_professional').val();
-            let is_partner_in_firm = $('#is_partner_in_firm').val();
-            let is_director = $('#is_director').val();
-            let type_of_crypto_income = $('#type_of_crypto_income').val();
-            // let is_presumed_income = $('#is_presumed_income').val();
+            let on_road_price = $('#on_road_price').val();
+            let on_road_price_with_cng = $('#on_road_price_with_cng').val();
+            let petrol_price = $('#petrol_price').val()
+            let cng_price = $('#cng_price').val();
+            let petrol_mileage = $('#petrol_mileage').val();
+            let cng_mileage = $('#cng_mileage').val();
+            let drive_km_per_year = $('#drive_km_per_year').val();
+            let fd_interest_rate = $('#fd_interest_rate').val();
 
-            if (total_income !== "" && is_director !== "" && is_capital_income !== "" &&
-                is_professional !== "" && is_partner_in_firm !== "" && type_of_crypto_income !== "") {
-                // is_presumed_income!==""){
-                if (is_capital_income === "Yes" && is_intra_day === "") {
-                    return;
-                }
+            let petrol5YearCosting = on_road_price + petrol_price*drive_km_per_year*5;
+            $("#petrol5YearCosting").text(petrol5YearCosting);
 
-                if (total_income === "above_50_lakhs") {
-                    // ITR-2, ITR-3
-                    if (is_professional === "Yes" || is_partner_in_firm === "Yes") {
-                        setResult('ITR-3 (Mandatory to file Schedule AL)');
-                        return;
-                    }
-                    setResult('ITR-2 (Mandatory to file Schedule AL)');
-                    return;
-                }
-                else {
-                    // ITR-1, ITR-2, ITR-3, ITR-4
-                    if (is_professional === "Yes") {
-                        // ITR-3, ITR-4
-                        if (is_capital_income === "Yes" || type_of_crypto_income.startsWith("Yes")) {
-                            setResult("ITR-3");
-                            return;
-                        }
-                        setResult("ITR-4");
-                        return;
-                    }
-                    if (is_partner_in_firm === "Yes") {
-                        setResult("ITR-3");
-                        return;
-                    }
-                    if (type_of_crypto_income.startsWith("Yes")) {
-                        // ITR-2, ITR-3
-                        if (type_of_crypto_income === "Yes, reported as business income") {
-                            setResult("ITR-3");
-                            return;
-                        }
-                        setResult("ITR-2");
-                        return;
-                    }
-                    if (is_capital_income === "Yes") {
-                        if (is_intra_day === "Yes") {
-                            setResult("ITR-3");
-                            return;
-                        }
-                        setResult("ITR-2");
-                        return;
-                    }
-                    if (is_director === "Yes") {
-                        setResult("ITR-2");
-                        return;
-                    }
-                    setResult("ITR-1");
-                }
+            let cng5YearCosting = on_road_price + petrol_price*drive_km_per_year*5;
+            $("#cng5YearCosting").text(cng5YearCosting);
 
-            }
+            let interestEarnedOnCNG = ((on_road_price_with_cng-on_road_price)*fd_interest_rate*5)/100;
+            $("#interestEarnedOnCNG").text(interestEarnedOnCNG);
+
+            let petrol5YearCostingAfterInterestEarned = petrol5YearCosting - interestEarnedOnCNG;
+            $("#petrol5YearCostingAfterInterestEarned").text(petrol5YearCostingAfterInterestEarned);
         }
 
-        $('#is_capital_income').change(function () {
-            if ($(this).val() === 'Yes') {
-                $("#_is_intra_day").show();
-            } else {
-                $("#_is_intra_day").hide();
-            }
-        });
 
-        $('#total_income').change(function () {
+        $('#on_road_price').change(function () {
             generateAnswerIfPossible();
         });
-        $('#is_capital_income').change(function () {
+        $('#on_road_price_with_cng').change(function () {
             generateAnswerIfPossible();
         });
-        $('#is_intra_day').change(function () {
+        $('#petrol_price').change(function () {
             generateAnswerIfPossible();
         });
-        $('#is_professional').change(function () {
+        $('#cng_price').change(function () {
             generateAnswerIfPossible();
         });
-        $('#is_partner_in_firm').change(function () {
+        $('#petrol_mileage').change(function () {
             generateAnswerIfPossible();
         });
-        $('#is_director').change(function () {
+        $('#cng_mileage').change(function () {
             generateAnswerIfPossible();
         });
-        $('#type_of_crypto_income').change(function () {
+        $('#drive_km_per_year').change(function () {
+            generateAnswerIfPossible();
+        });
+        $('#fd_interest_rate').change(function () {
             generateAnswerIfPossible();
         });
     </script>
