@@ -144,7 +144,6 @@
                 <br />
                 <h3>&nbsp;</h3>
                 <br />
-                <h3>&nbsp;</h3>
             </div>
         </div>
     </div>
@@ -175,6 +174,13 @@
 
             let petrol5YearCostingAfterInterestEarned = petrol5YearCosting - interestEarnedOnCNG;
             $("#petrol5YearCostingAfterInterestEarned").text(petrol5YearCostingAfterInterestEarned);
+
+            if (petrol5YearCostingAfterInterestEarned > cng5YearCosting){
+                $("#betterEngineOption").text(`CNG (${petrol5YearCostingAfterInterestEarned - cng5YearCosting})`);
+            }
+            else {
+                $("#betterEngineOption").text(`Petrol (${cng5YearCosting - petrol5YearCostingAfterInterestEarned})`);
+            }
         }
 
 
