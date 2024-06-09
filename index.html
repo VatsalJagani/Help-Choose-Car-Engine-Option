@@ -155,14 +155,14 @@
 
     <script>
         function generateAnswerIfPossible() {
-            let on_road_price = $('#on_road_price').val();
-            let on_road_price_with_cng = $('#on_road_price_with_cng').val();
-            let petrol_price = $('#petrol_price').val()
-            let cng_price = $('#cng_price').val();
-            let petrol_mileage = $('#petrol_mileage').val();
-            let cng_mileage = $('#cng_mileage').val();
-            let drive_km_per_year = $('#drive_km_per_year').val();
-            let fd_interest_rate = $('#fd_interest_rate').val();
+            let on_road_price = parseFloat(('#on_road_price').val());
+            let on_road_price_with_cng = parseFloat($('#on_road_price_with_cng').val());
+            let petrol_price = parseFloat($('#petrol_price').val());
+            let cng_price = parseFloat($('#cng_price').val());
+            let petrol_mileage = parseFloat($('#petrol_mileage').val());
+            let cng_mileage = parseFloat($('#cng_mileage').val());
+            let drive_km_per_year = parseFloat($('#drive_km_per_year').val());
+            let fd_interest_rate = parseFloat($('#fd_interest_rate').val());
 
             let petrol5YearCosting = Math.round(on_road_price + petrol_price*(drive_km_per_year/petrol_mileage)*5);
             $("#petrol5YearCosting").text(petrol5YearCosting);
